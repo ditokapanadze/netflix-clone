@@ -1,4 +1,4 @@
-import Reactm, {useState} from 'react'
+import React, {useState} from 'react'
 import "./LoginScreen.css"
 import background from '../img/background.jpg'
 import SignInScreen from '../screens/SignUpScreen'
