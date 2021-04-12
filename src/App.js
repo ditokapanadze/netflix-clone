@@ -22,17 +22,19 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) =>{
       if(userAuth){
-          console.log(userAuth);
+          
           dispatch(login({
             uid: userAuth.uid,
             email: userAuth.email
           }))
       } else {
-          dispatch(logout)
+          dispatch(logout())
       }
     })
     return unsubscribe
-  }, [])
+  }, [dispatch])
+
+console.log(user);
 
   return (
     <div className="app">
@@ -41,9 +43,9 @@ function App() {
           <Login />
         ) : (
           <Switch>
-            <Router path="/profile">
+            <Route path="/profile">
                 <ProfileScreen />
-            </Router>
+            </Route>
           <Route exact path="/">
             <HomeScreen />
           </Route>

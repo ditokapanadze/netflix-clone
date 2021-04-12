@@ -5,6 +5,8 @@ import Banner from "../Banner"
 import Row from "../Row"
 import requests from '../Requsets'
 function HomeScreen() {
+
+  console.log("asddddddd");
     return (
         <div className="homeScreen">
             <Nav />

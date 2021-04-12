@@ -17,7 +17,7 @@ export default function Row({title, fetchURL, isLargeRow = false}) {
         }
         fetchData()
     }, [fetchURL])
-    console.log(movies);
+    
     
     return (
         <div className="row">
