@@ -9,6 +9,26 @@ import { loadStripe } from "@stripe/stripe-js";
 function PlansScreen() {
   const [products, setProducts] = useState([]);
   const user = useSelector(selectUser);
+  const [subscription, setSubscription] = useState(null);
+
+  // ვამოწმებთ დალოგინებულ იუზერს უკვე აქვს უ არა რამე პაკეტი ნაყიდი, თუ ნაყიდი აქვს ვაბრუნებთ პაკეტის სახელს ყიდვის დროს და პაკეტის ვადას
+  useEffect(() => {
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("subscriptions")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach(async (subscription) => {
+          setSubscription({
+            role: subscription.data().role,
+            current_period_end: subscription.data().current_period_end.seconds,
+            current_period_start: subscription.data().current_period_start
+              .seconds,
+          });
+        });
+      });
+  }, [user.uid]);
+  console.log(subscription);
   // პროდუქტების აღწერა და ფასები
   useEffect(() => {
     db.collection("products")
@@ -18,9 +38,12 @@ function PlansScreen() {
         const products = {};
         querySnapshot.forEach(async (productDoc) => {
           products[productDoc.id] = productDoc.data();
+
+          //  productDoc.data() არ მოაქვს ფასები, ფასები ცალკე კოლექცია და ამიტო ცალკე უნდა ამოვიღოთ
+          // ქვედა ფუნქცია მაგას აკეთებს
+          //productDoc.ref იმისთვის გვჭირდება რო იგივე პროდუქტის price ამოვიღოთ
           const priceSnap = await productDoc.ref.collection("prices").get();
           priceSnap.docs.forEach((price) => {
-            // ფასები
             products[productDoc.id].prices = {
               priceId: price.id,
               priceData: price.data(),
@@ -32,9 +55,9 @@ function PlansScreen() {
   }, []);
 
   const loadChekout = async (priceId) => {
-    // user.uid რედაქსიდან მოდის ეს,  docRef იქნება ომ იუზერის მონაცემები ვინც დალოგინებული
-    // .collection("checkout_sessions") არის ახალი ბაზა რომელიც შეიქმნება როცა იუზერი suvscribe-ს გააკეთებს
-    // add({}) ამით გადავცემთ იმ მონაცემებს რაც გვინა რომ ამ ბაზაში ჩაჯდეს
+    // user.uid რედაქსიდან მოდის ეს,  docRef იქნება იმ იუზერის მონაცემები ვინც დალოგინებულია
+    // .collection("checkout_sessions") არის ახალი ბაზა რომელიც შეიქმნება როცა იუზერი subscribe-ს გააკეთებს
+    // add({}) ამით გადავცემთ იმ მონაცემებს რაც გვინდა რომ ამ ბაზაში ჩაჯდეს
     const docRef = await db
       .collection("customers")
       .doc(user.uid)
@@ -53,7 +76,7 @@ function PlansScreen() {
         alert(`An error occured: ${error.message}`);
       }
       if (sessionId) {
-        // ჩექაუთზე გადასვლა
+        // ჩექაუთის ფანჯარაზე გადასვლა გადასვლა
         const stripe = await loadStripe(
           "pk_test_51IgDpME12oV19bqg8pQC8dg22uOV9spMMgr5l0mEZdBq49qemfMueoZl6nqubJsloJV5yivAfM5U7mVIXpDAz1eo00vEYOyAnE"
         );
@@ -61,18 +84,42 @@ function PlansScreen() {
       }
     });
   };
+  console.log(products);
 
   return (
     <div>
+      {subscription && (
+        <p>
+          Your subscription expires at:{" "}
+          {new Date(
+            subscription?.current_period_end * 1000
+          ).toLocaleDateString()}
+        </p>
+      )}
+      {/* დეკოსნტრუქცია ახდენს ეს, რაღაც სტრანად მოდის მონაცემები, გასარკვევია ქვედა კოდი ზუსტად როგორ მოქმედებს */}
       {Object.entries(products).map(([productId, productData]) => {
+        // ამოწმებს რომელი პაკეტიაქ ნაყიდი და აბრუნებს true-ს შესაბამის სახელზე რო ui გადავაწყოთ
+        const isCurrentPackage = productData.name
+          ?.toLowerCase()
+          .includes(subscription?.role);
+
         return (
-          <div className="plansScreen_plan">
+          <div
+            key={productId}
+            className={`${
+              isCurrentPackage && "plansScreen_plan_disabled"
+            } plansScreen_plan`}
+          >
             <div className="plansScreen_info">
               <h5>{productData.name}</h5>
               <h6>{productData.description}</h6>
             </div>
-            <button onClick={() => loadChekout(productData?.prices?.priceId)}>
-              Subscribe
+            <button
+              onClick={() =>
+                !isCurrentPackage && loadChekout(productData?.prices?.priceId)
+              }
+            >
+              {isCurrentPackage ? "Current Package" : "Subscribe"}
             </button>
           </div>
         );

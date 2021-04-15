@@ -19,3 +19,7 @@
   font-weight: 600;
   font-size: 1rem;
 }
+
+.plansScreen_plan_disabled button {
+  background-color: grey;
+}
