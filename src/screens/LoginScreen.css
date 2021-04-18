@@ -60,18 +60,64 @@
   right: 0;
 }
 
-.loginScreen_body > h1 {
+.loginScreen_body h1 {
   font-size: 3.125rem;
   margin-bottom: 20px;
+  animation: transitionDown 0.7s;
 }
+
+@keyframes transitionDown {
+  from {
+    transform: translateY(-40px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+@keyframes transitionUp {
+  from {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0px);
+    opacity: 1;
+  }
+}
+
+@keyframes transitionleft {
+  from {
+    transform: translateX(-80px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+@keyframes transitionright {
+  from {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0px);
+    opacity: 1;
+  }
+}
+
 .loginScreen_body > h2 {
   font-size: 2rem;
   font-weight: 400;
   margin-bottom: 30px;
+  animation: transitionleft 1s;
 }
 .loginScreen_body > h3 {
   font-size: 1.3rem;
   font-weight: 400;
+  animation: transitionright 1.2s;
 }
 
 .loginScreen_input > form > input {
@@ -84,6 +130,7 @@
 }
 .loginScreen_input {
   margin: 20px;
+  animation: transitionUp 2s;
 }
 .loginScreen_getStarted {
   padding: 16px 20px;
