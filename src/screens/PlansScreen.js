@@ -20,7 +20,7 @@ function PlansScreen() {
       .then((querySnapshot) => {
         querySnapshot.forEach(async (subscription) => {
           setSubscription({
-            role: subscription.data().role,
+            name: subscription.data().items[0].price.product.name.toLowerCase(),
             current_period_end: subscription.data().current_period_end.seconds,
             current_period_start: subscription.data().current_period_start
               .seconds,
@@ -28,7 +28,7 @@ function PlansScreen() {
         });
       });
   }, [user.uid]);
-  console.log(subscription);
+
   // პროდუქტების აღწერა და ფასები
   useEffect(() => {
     db.collection("products")
@@ -84,8 +84,16 @@ function PlansScreen() {
       }
     });
   };
-  console.log(products);
 
+  // const button = () => {
+  //   if (subscription.name) {
+  //     if (subscription.name === "premium" && product.name === "premium") {
+  //       return "asdasd";
+  //     }
+  //   }
+  // };
+
+  console.log(subscription?.name);
   return (
     <div>
       {subscription && (
@@ -99,9 +107,12 @@ function PlansScreen() {
       {/* დეკოსნტრუქცია ახდენს ეს, რაღაც სტრანად მოდის მონაცემები, გასარკვევია ქვედა კოდი ზუსტად როგორ მოქმედებს */}
       {Object.entries(products).map(([productId, productData]) => {
         // ამოწმებს რომელი პაკეტიაქ ნაყიდი და აბრუნებს true-ს შესაბამის სახელზე რო ui გადავაწყოთ
-        const isCurrentPackage = productData.name
+        const product = productData.name?.toLowerCase();
+        // ?.toLowerCase()
+        // .includes(subscription?.name);
+        const isCurrentPackage = productData?.name
           ?.toLowerCase()
-          .includes(subscription?.role);
+          .includes(subscription?.name);
 
         return (
           <div
@@ -119,7 +130,16 @@ function PlansScreen() {
                 !isCurrentPackage && loadChekout(productData?.prices?.priceId)
               }
             >
-              {isCurrentPackage ? "Current Package" : "Subscribe"}
+              {!subscription
+                ? "subscribe"
+                : product === subscription?.name
+                ? "Current Package"
+                : subscription?.name === "premium" &&
+                  (product === "basic" || "standard")
+                ? "You alredy own better package"
+                : subscription?.name === "standard" && product === "basic"
+                ? "You alredy own better package"
+                : "subscribe"}
             </button>
           </div>
         );
