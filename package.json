@@ -15,7 +15,8 @@
     "react-redux": "^7.2.3",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
-    "react-typewriter-effect": "^1.0.2"
+    "react-typewriter-effect": "^1.0.2",
+    "react-youtube": "^7.13.1"
   },
   "scripts": {
     "start": "react-scripts start",

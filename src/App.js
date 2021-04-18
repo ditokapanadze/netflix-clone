@@ -62,7 +62,6 @@ function App() {
   // }, []);
 
   useEffect(() => {
-    console.log("11");
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
         firebase
@@ -94,8 +93,6 @@ function App() {
     });
     return unsubscribe;
   }, [dispatch]);
-  console.log(user);
-  console.log(basicAvatar);
 
   return (
     <div className="app">

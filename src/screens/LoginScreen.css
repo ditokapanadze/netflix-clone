@@ -63,7 +63,9 @@
 .loginScreen_body h1 {
   font-size: 3.125rem;
   margin-bottom: 20px;
-  animation: transitionDown 0.7s;
+}
+.animated {
+  animation: transitionDown 1s;
 }
 
 @keyframes transitionDown {

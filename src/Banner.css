@@ -60,3 +60,70 @@
 .react-typewriter-pointer {
   display: none !important;
 }
+
+.trailer_container {
+  position: absolute;
+  background-color: rgb(141, 178, 194, 0.7);
+  height: 110vh;
+  width: 100%;
+  margin: auto;
+  top: 100%;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.trailer {
+  width: 1100px;
+  height: 600px;
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  position: relative;
+}
+
+.close_btn {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+
+  top: 10px;
+  right: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fa-times {
+  cursor: pointer;
+  color: red;
+  font-size: 35px;
+}
+
+.fa-times:hover {
+  transform: scale(1.1);
+  transition: transform 0.1s ease-in-out;
+}
+
+.trailer_btn {
+  width: 140px;
+  height: 35px;
+  border-radius: 8px;
+  border-style: none;
+  outline: none;
+  margin-top: 60px;
+  color: #fff;
+  background-color: #e50914;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: transform 0.3s;
+}
+
+.trailer_btn:hover {
+  transform: scale(1.1);
+}
