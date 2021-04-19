@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
 import "./Row.css";
 import axios from "./axios";
+import { useHistory, useParams } from "react-router-dom";
 
 export default function Row({ title, fetchURL, isLargeRow = false }) {
   const [movies, setMovies] = useState([]);
-
+  let history = useHistory();
   //  ფოტოს ბეიზ ურლ
   const base_url = "https://image.tmdb.org/t/p/original/";
-
+  console.log(movies);
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(fetchURL);
@@ -16,7 +17,9 @@ export default function Row({ title, fetchURL, isLargeRow = false }) {
     }
     fetchData();
   }, [fetchURL]);
-
+  const handleClick = (id) => {
+    history.push(`movie/${id}`);
+  };
   return (
     <div className="row">
       <h2>{title}</h2>
@@ -27,6 +30,7 @@ export default function Row({ title, fetchURL, isLargeRow = false }) {
             ((isLargeRow && movie.poster_path) ||
               (!isLargeRow && movie.backdrop_path)) && (
               <img
+                onClick={() => handleClick(movie.id)}
                 className={`row_poster ${isLargeRow && "row_posterLarge"}`}
                 key={movie.id}
                 src={`${base_url}${

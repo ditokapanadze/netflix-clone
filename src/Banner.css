@@ -21,7 +21,7 @@
   width: 45rem;
   line-height: 1.6;
   padding-top: 1rem;
-  font-size: 0.4rem;
+  font-size: 0.45rem;
   max-width: 360px;
   height: 80px;
 }
@@ -62,6 +62,7 @@
 }
 
 .trailer_container {
+  z-index: 1;
   position: absolute;
   background-color: rgb(141, 178, 194, 0.7);
   height: 110vh;
@@ -92,20 +93,20 @@
   width: 40px;
   height: 40px;
 
-  top: 10px;
-  right: 20px;
+  top: 0;
+  right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.fa-times {
+.trailer_close {
   cursor: pointer;
   color: red;
   font-size: 35px;
 }
 
-.fa-times:hover {
+.trailer_close:hover {
   transform: scale(1.1);
   transition: transform 0.1s ease-in-out;
 }

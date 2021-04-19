@@ -55,7 +55,7 @@ function Banner() {
     height: "500",
     width: "900",
     playerVars: {
-      autoplay: 0,
+      autoplay: 1,
     },
   };
 
@@ -69,7 +69,7 @@ function Banner() {
       style={{
         backgroundSize: "cover",
         backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')`,
-        backgroundPosition: " center center",
+        backgroundPosition: "center",
       }}
     >
       <div className="banner_contents">
@@ -95,7 +95,7 @@ function Banner() {
             startDelay={200}
             typeSpeed={30}
             cursorColor="none"
-            text={truncate(movie?.overview, 200)}
+            text={truncate(movie?.overview, 220)}
           />
 
           {/* {truncate(movie?.overview, 150)} */}
@@ -110,7 +110,7 @@ function Banner() {
         <div className="trailer_container ">
           <div className="trailer">
             <div onClick={close} className="close_btn">
-              <i class="fas fa-times"></i>
+              <i class="fas fa-times trailer_close"></i>
             </div>
             {<Youtube videoId={trailerUrl} opts={opts} className="as" />}
           </div>

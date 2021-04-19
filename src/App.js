@@ -6,8 +6,15 @@ import Login from "./screens/LoginScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, login, selectUser } from "./features/userSlice";
 import ProfileScreen from "./screens/ProfileScreen";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link,
+  useParams,
+} from "react-router-dom";
 import { auth } from "./firebase";
+import MoviePage from "./screens/MoviePage";
 
 function App() {
   const dispatch = useDispatch();
@@ -79,13 +86,16 @@ function App() {
           })
           .catch((error) => {
             console.log(error);
-            dispatch(
-              login({
-                uid: userAuth.uid,
-                email: userAuth.email,
-                avatarUrl: basicAvatar,
-              })
-            );
+            localStorage.setItem("uid", userAuth.uid);
+            localStorage.setItem("email", userAuth.email);
+            localStorage.setItem("avatarUrl", basicAvatar);
+            // dispatch(
+            //   login({
+            //     uid: userAuth.uid,
+            //     email: userAuth.email,
+            //     avatarUrl: basicAvatar,
+            //   })
+            // );
           });
       } else {
         dispatch(logout());
@@ -104,6 +114,11 @@ function App() {
             <Route path="/profile">
               <ProfileScreen />
             </Route>
+
+            <Route path="/movie/:slug?">
+              <MoviePage />
+            </Route>
+
             <Route exact path="/">
               <HomeScreen />
             </Route>
