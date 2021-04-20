@@ -7,8 +7,7 @@
   display: flex;
   /* align-items: center;
   justify-content: center; */
-
-  margin-top: 50px;
+  padding-top: 100px;
 }
 
 .movie_poster {
@@ -20,7 +19,7 @@
 }
 
 .info_container {
-  color: wheat;
+  color: antiquewhite;
 
   width: 50%;
   /* height: 50%;
@@ -95,4 +94,9 @@
 .similar_movie:hover {
   background-color: grey;
   transform: scale(1.1);
+}
+
+.simliar_head {
+  color: antiquewhite;
+  margin-left: 100px;
 }

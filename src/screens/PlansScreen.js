@@ -68,8 +68,6 @@ function PlansScreen() {
         cancel_url: window.location.origin,
       });
 
-    // ჩექაუთის გვერდზე გადასვლა ან ერორი
-
     docRef.onSnapshot(async (snap) => {
       const { error, sessionId } = snap.data();
       if (error) {

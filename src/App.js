@@ -83,8 +83,18 @@ function App() {
                 avatarUrl: imgUrl,
               })
             );
+            localStorage.setItem("uid", userAuth.uid);
+            localStorage.setItem("email", userAuth.email);
+            localStorage.setItem("avatarUrl", imgUrl);
           })
           .catch((error) => {
+            dispatch(
+              login({
+                uid: userAuth.uid,
+                email: userAuth.email,
+                avatarUrl: basicAvatar,
+              })
+            );
             console.log(error);
             localStorage.setItem("uid", userAuth.uid);
             localStorage.setItem("email", userAuth.email);

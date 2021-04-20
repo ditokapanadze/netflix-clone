@@ -4,15 +4,19 @@ import axios from "./axios";
 import requests from "./Requsets";
 import TypeWriterEffect from "react-typewriter-effect";
 import Youtube from "react-youtube";
+import db from "./firebase";
+import { useSelector } from "react-redux";
+import { selectUser } from "./features/userSlice";
 
 function Banner() {
   const [movie, setMovie] = useState([]);
   const [title, setTitle] = useState([]);
   const [trailerUrl, setTrailerUrl] = useState("");
   const [active, setActive] = useState(false);
+  const [list, setList] = useState([]);
   // const [x, setX] = useState(0);
   const sacdeli = "aba vnaxot ra gamova";
-
+  const user = useSelector(selectUser);
   // რენდომ ფილმის ინფორმაციის ამოღება
   useEffect(() => {
     async function fetchData() {
@@ -26,7 +30,22 @@ function Banner() {
 
     fetchData();
   }, []);
-  console.log(movie);
+
+  useEffect(() => {
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("watchList")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((snap) => {
+          setList(list.concat(snap.data()));
+        });
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   // აღწერას აპატარავებს თუ ზედმეტად დიდია
   function truncate(string, n) {
     return string?.length > n ? string.substr(0, n - 1) + "..." : string;
@@ -50,7 +69,7 @@ function Banner() {
         });
     }
   };
-  console.log(trailerUrl);
+
   const opts = {
     height: "500",
     width: "900",
@@ -60,16 +79,26 @@ function Banner() {
   };
 
   const close = () => {
-    console.log("sd");
     setActive(false);
   };
+
+  const addTolist = (id) => {
+    // customer-ში ქმნის ახალ კოლექციას ვოშლისტს და ამარებს ფილმის აიდის
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("watchList")
+      .add({ listItem: movie.id });
+  };
+  console.log(list);
   return (
     <header
       className="banner"
       style={{
+        marginTop: "200",
+        paddingTop: "300",
         backgroundSize: "cover",
         backgroundImage: `url('https://image.tmdb.org/t/p/original/${movie?.backdrop_path}')`,
-        backgroundPosition: "center",
+        backgroundPosition: "center center",
       }}
     >
       <div className="banner_contents">
@@ -87,7 +116,14 @@ function Banner() {
         </h1>
         <div className="banner_buttons">
           <button className="banner_button">Play</button>
-          <button className="banner_button"> My List</button>
+          <button onClick={() => addTolist(movie.id)} className="banner_button">
+            {" "}
+            {/* {list.map((x) =>
+              x.listItem === movie.id
+                ? "already in watchlis"
+                : "add in watchlist"
+            )} */}
+          </button>
         </div>
 
         <h1 className="banner_description">

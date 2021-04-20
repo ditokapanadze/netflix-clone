@@ -89,7 +89,7 @@ function MoviePage() {
 
   return (
     <div className="movie_page">
-      {/* <Nav /> */}
+      <Nav />
 
       <div className="movie_page_container">
         <img
@@ -180,6 +180,7 @@ function MoviePage() {
         </div>
       </div>
       {<Youtube videoId={trailerUrl} opts={opts} className="page_trailer" />}
+      <h3 className="simliar_head">You may also like</h3>
       <div className="similar_container">
         {similar.map((movie) => {
           return (

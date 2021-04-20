@@ -12,6 +12,7 @@ function HomeScreen() {
       <Nav />
       <Banner />
       <Search />
+
       <Row
         title="NETFLIX ORIGINALS"
         fetchURL={requests.fetchNetflixOriginals}
