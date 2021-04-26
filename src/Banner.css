@@ -62,10 +62,10 @@
 }
 
 .trailer_container {
-  z-index: 1;
+  z-index: 99999999999999;
   position: absolute;
   background-color: rgb(141, 178, 194, 0.7);
-  height: 110vh;
+  height: 400vh;
   width: 100%;
   margin: auto;
   top: 100%;
@@ -78,6 +78,7 @@
 }
 
 .trailer {
+  z-index: 999;
   width: 1100px;
   height: 600px;
   background-color: black;

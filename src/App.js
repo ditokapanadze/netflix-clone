@@ -6,6 +6,7 @@ import Login from "./screens/LoginScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, login, selectUser } from "./features/userSlice";
 import ProfileScreen from "./screens/ProfileScreen";
+import db from "./firebase";
 import {
   BrowserRouter as Router,
   Switch,
@@ -20,6 +21,7 @@ function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
   const [avatar, setAvatar] = useState("");
+  const [list, setList] = useState([]);
 
   // const test = firebase.auth().currentUser;
   const basicAvatar =
@@ -71,6 +73,22 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
+        db.collection("customers")
+          .doc(user.uid)
+          .collection("watchList")
+          .get()
+          .then((querySnapshot) => {
+            let test = [];
+            querySnapshot.forEach((snap) => {
+              test.push(snap.data());
+              setList(test);
+              localStorage.setItem("watchList", JSON.stringify(test));
+            });
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+
         firebase
           .storage()
           .ref("users/" + userAuth.uid + "/profile.jpg")
@@ -81,11 +99,15 @@ function App() {
                 uid: userAuth.uid,
                 email: userAuth.email,
                 avatarUrl: imgUrl,
+                // watchList: localStorage.getItem(JSON.parse("watchList")),
+                watchList: "asdasdasdasda",
               })
             );
             localStorage.setItem("uid", userAuth.uid);
             localStorage.setItem("email", userAuth.email);
             localStorage.setItem("avatarUrl", imgUrl);
+            // localStorage.setItem("watchList", JSON.stringify(list));
+            // localStorage.setItem("watchList", "test");
           })
           .catch((error) => {
             dispatch(
@@ -93,22 +115,29 @@ function App() {
                 uid: userAuth.uid,
                 email: userAuth.email,
                 avatarUrl: basicAvatar,
+                // watchList: "asdasdasdasda",
+                watchList: JSON.parse(localStorage.getItem("watchList")),
               })
             );
             console.log(error);
             localStorage.setItem("uid", userAuth.uid);
             localStorage.setItem("email", userAuth.email);
             localStorage.setItem("avatarUrl", basicAvatar);
-            // dispatch(
-            //   login({
-            //     uid: userAuth.uid,
-            //     email: userAuth.email,
-            //     avatarUrl: basicAvatar,
-            //   })
-            // );
+            // localStorage.setItem("watchList", JSON.stringify(list));
+            // console.log("test1");
+            // localStorage.setItem("watchList", "test1");
+            dispatch(
+              login({
+                uid: userAuth.uid,
+                email: userAuth.email,
+                avatarUrl: basicAvatar,
+                watchList: localStorage.getItem(JSON.parse("watchList")),
+              })
+            );
           });
       } else {
         dispatch(logout());
+        localStorage.clear();
       }
     });
     return unsubscribe;
@@ -117,7 +146,7 @@ function App() {
   return (
     <div className="app">
       <Router>
-        {!user ? (
+        {!user || !user?.uid ? (
           <Login />
         ) : (
           <Switch>

@@ -7,6 +7,7 @@ import Youtube from "react-youtube";
 import db from "./firebase";
 import { useSelector } from "react-redux";
 import { selectUser } from "./features/userSlice";
+import { loadStripe } from "@stripe/stripe-js";
 
 function Banner() {
   const [movie, setMovie] = useState([]);
@@ -14,6 +15,13 @@ function Banner() {
   const [trailerUrl, setTrailerUrl] = useState("");
   const [active, setActive] = useState(false);
   const [list, setList] = useState([]);
+  const [button, setButton] = useState("");
+  const inventory = [
+    { name: "apples", quantity: 2 },
+    { name: "bananas", quantity: 0 },
+    { name: "cherries", quantity: 5 },
+  ];
+
   // const [x, setX] = useState(0);
   const sacdeli = "aba vnaxot ra gamova";
   const user = useSelector(selectUser);
@@ -29,22 +37,44 @@ function Banner() {
     }
 
     fetchData();
+
+    // db.collection("customers")
+    //   .doc(user.uid)
+    //   .collection("watchList")
+    //   .get()
+    //   .then((querySnapshot) => {
+    //     let test = [];
+    //     querySnapshot.forEach((snap) => {
+    //       test.push(snap.data());
+    //       setList(test);
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //   });
   }, []);
 
-  useEffect(() => {
-    db.collection("customers")
-      .doc(user.uid)
-      .collection("watchList")
-      .get()
-      .then((querySnapshot) => {
-        querySnapshot.forEach((snap) => {
-          setList(list.concat(snap.data()));
-        });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
+  // useEffect(() => {
+  //   db.collection("customers")
+  //     .doc(user.uid)
+  //     .collection("watchList")
+  //     .get()
+  //     .then((querySnapshot) => {
+  //       let test = [];
+  //       querySnapshot.forEach((snap) => {
+  //         test.push(snap.data());
+  //         setList(test);
+  //       });
+  //     })
+  //     .then((x) => {
+  //       const result = list.find(({ listItem }) => listItem === 80828);
+
+  //       console.log(result);
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   // აღწერას აპატარავებს თუ ზედმეტად დიდია
   function truncate(string, n) {
@@ -83,13 +113,30 @@ function Banner() {
   };
 
   const addTolist = (id) => {
-    // customer-ში ქმნის ახალ კოლექციას ვოშლისტს და ამარებს ფილმის აიდის
+    // customer-ში ქმნის ახალ კოლექციას ვოშლისტს და ამატებს ფილმის აიდის
     db.collection("customers")
       .doc(user.uid)
       .collection("watchList")
       .add({ listItem: movie.id });
   };
-  console.log(list);
+
+  var array = [
+    { name: "string 1", value: "this", other: "that" },
+    { name: "string 2", value: "this", other: "that" },
+  ];
+  const watchlist = user.watchList;
+
+  const check = () => {
+    for (var i = 0; i < watchlist.length; i++) {
+      if (watchlist[i].listItem === movie.id) {
+        return true;
+      } else {
+        return false;
+      }
+    }
+  };
+
+  console.log(check);
   return (
     <header
       className="banner"
@@ -117,12 +164,7 @@ function Banner() {
         <div className="banner_buttons">
           <button className="banner_button">Play</button>
           <button onClick={() => addTolist(movie.id)} className="banner_button">
-            {" "}
-            {/* {list.map((x) =>
-              x.listItem === movie.id
-                ? "already in watchlis"
-                : "add in watchlist"
-            )} */}
+            {button ? "Already in watchlist" : "Add in watchlist"}
           </button>
         </div>
 

@@ -38,8 +38,6 @@
 .swiper-container {
 }
 .swiper-slide {
-  height: 320px;
-
   padding: 10px 0 30px 0;
   width: 190px !important;
 }

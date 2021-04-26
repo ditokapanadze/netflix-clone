@@ -7,6 +7,7 @@ export const userSlice = createSlice({
       uid: localStorage.getItem("uid"),
       email: localStorage.getItem("email"),
       avatarUrl: localStorage.getItem("avatarUrl"),
+      watchList: "",
     },
   },
 

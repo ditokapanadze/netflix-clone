@@ -13,7 +13,7 @@ export default function Row({ title, fetchURL, isLargeRow = false }) {
   let history = useHistory();
   //  ფოტოს ბეიზ ურლ
   const base_url = "https://image.tmdb.org/t/p/original/";
-  console.log(movies);
+
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(fetchURL);
