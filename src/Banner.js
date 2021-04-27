@@ -88,7 +88,7 @@ function Banner() {
     } else {
       axios
         .get(
-          `/movie/${movie.id}/videos?api_key=0b753f6cb66d441479c1e758d1f8f62e`
+          `/movie/${movie?.id}/videos?api_key=0b753f6cb66d441479c1e758d1f8f62e`
         )
         .then((res) => {
           console.log(res.data.results[0].key);
@@ -117,26 +117,40 @@ function Banner() {
     db.collection("customers")
       .doc(user.uid)
       .collection("watchList")
-      .add({ listItem: movie.id });
+      .add({ listItem: movie?.id });
   };
 
-  var array = [
-    { name: "string 1", value: "this", other: "that" },
-    { name: "string 2", value: "this", other: "that" },
-  ];
+  var array = [{ name: "string 1" }, { name: "string 2" }];
   const watchlist = user.watchList;
+
+  const test = (e) => e.name === "string 2";
 
   const check = () => {
     for (var i = 0; i < watchlist.length; i++) {
-      if (watchlist[i].listItem === movie.id) {
-        return true;
+      if (watchlist[i].listItem === movie?.id) {
+        console.log("vipove");
+        break;
       } else {
-        return false;
+        console.log("ver vipove");
       }
     }
   };
 
-  console.log(check);
+  // const cc = () => {
+  //   watchlist.map((x, item) => console.log(x));
+  // };
+
+  // cc();
+  // let x = 12;
+  // const check = () => {
+  //   if (x < 10) {
+  //     return true;
+  //   } else {
+  //     return false;
+  //   }
+  // };
+  // console.log(watchlist.map((x) => x.name).indexOf("string 2"));
+
   return (
     <header
       className="banner"
@@ -162,10 +176,21 @@ function Banner() {
           }
         </h1>
         <div className="banner_buttons">
-          <button className="banner_button">Play</button>
-          <button onClick={() => addTolist(movie.id)} className="banner_button">
-            {button ? "Already in watchlist" : "Add in watchlist"}
+          <button disabled={true} className="banner_button">
+            Play
           </button>
+          {watchlist.map((x) => x.listItem).indexOf(movie.id) < 0 ? (
+            <button
+              type="button"
+              onClick={() => addTolist(movie.id)}
+              className="banner_button"
+              disabled
+            >
+              Add in watchlist
+            </button>
+          ) : (
+            <button className="in_watchlist"> already in watchlist</button>
+          )}
         </div>
 
         <h1 className="banner_description">

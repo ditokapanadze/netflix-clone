@@ -129,3 +129,16 @@
 .trailer_btn:hover {
   transform: scale(1.1);
 }
+.in_watchlist {
+  color: #fff;
+  outline: none;
+  border: none;
+  font-weight: 700;
+  border-radius: 0.2vw;
+  padding-left: 2rem;
+  padding-right: 2rem;
+  margin-right: 1rem;
+  padding-top: 0.5rem;
+  background-color: rgb(20, 13, 13);
+  padding-bottom: 0.5rem;
+}
