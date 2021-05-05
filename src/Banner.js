@@ -16,6 +16,7 @@ function Banner() {
   const [active, setActive] = useState(false);
   const [list, setList] = useState([]);
   const [button, setButton] = useState("");
+  const [state, setState] = useState(false);
   const inventory = [
     { name: "apples", quantity: 2 },
     { name: "bananas", quantity: 0 },
@@ -37,46 +38,8 @@ function Banner() {
     }
 
     fetchData();
-
-    // db.collection("customers")
-    //   .doc(user.uid)
-    //   .collection("watchList")
-    //   .get()
-    //   .then((querySnapshot) => {
-    //     let test = [];
-    //     querySnapshot.forEach((snap) => {
-    //       test.push(snap.data());
-    //       setList(test);
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //   });
   }, []);
 
-  // useEffect(() => {
-  //   db.collection("customers")
-  //     .doc(user.uid)
-  //     .collection("watchList")
-  //     .get()
-  //     .then((querySnapshot) => {
-  //       let test = [];
-  //       querySnapshot.forEach((snap) => {
-  //         test.push(snap.data());
-  //         setList(test);
-  //       });
-  //     })
-  //     .then((x) => {
-  //       const result = list.find(({ listItem }) => listItem === 80828);
-
-  //       console.log(result);
-  //     })
-  //     .catch((error) => {
-  //       console.log(error);
-  //     });
-  // }, []);
-
-  // აღწერას აპატარავებს თუ ზედმეტად დიდია
   function truncate(string, n) {
     return string?.length > n ? string.substr(0, n - 1) + "..." : string;
   }
@@ -112,30 +75,22 @@ function Banner() {
     setActive(false);
   };
 
+  console.log(state);
   const addTolist = (id) => {
     // customer-ში ქმნის ახალ კოლექციას ვოშლისტს და ამატებს ფილმის აიდის
     db.collection("customers")
       .doc(user.uid)
       .collection("watchList")
       .add({ listItem: movie?.id });
+
+    setState(true);
+    console.log(state);
+    console.log(id);
   };
 
   var array = [{ name: "string 1" }, { name: "string 2" }];
   const watchlist = user.watchList;
-
-  const test = (e) => e.name === "string 2";
-
-  const check = () => {
-    for (var i = 0; i < watchlist.length; i++) {
-      if (watchlist[i].listItem === movie?.id) {
-        console.log("vipove");
-        break;
-      } else {
-        console.log("ver vipove");
-      }
-    }
-  };
-
+  console.log(watchlist);
   // const cc = () => {
   //   watchlist.map((x, item) => console.log(x));
   // };
@@ -150,7 +105,12 @@ function Banner() {
   //   }
   // };
   // console.log(watchlist.map((x) => x.name).indexOf("string 2"));
+  // console.log(watchlist?.map((x) => x.listItem).indexOf(movie?.id));
 
+  // console.log(watchlist?.map((x) => x.listItem).indexOf(movie?.id));
+
+  console.log(typeof watchlist);
+  console.log(watchlist);
   return (
     <header
       className="banner"
@@ -176,20 +136,21 @@ function Banner() {
           }
         </h1>
         <div className="banner_buttons">
-          <button disabled={true} className="banner_button">
-            Play
-          </button>
-          {watchlist.map((x) => x.listItem).indexOf(movie.id) < 0 ? (
+          <button className="banner_button">Play</button>
+
+          {(watchlist?.map((x) => x.listItem).indexOf(movie?.id) < 0 ||
+            watchlist?.map((x) => x.listItem).indexOf(movie?.id) ==
+              undefined) &&
+          state === false ? (
             <button
               type="button"
               onClick={() => addTolist(movie.id)}
               className="banner_button"
-              disabled
             >
               Add in watchlist
             </button>
           ) : (
-            <button className="in_watchlist"> already in watchlist</button>
+            <button className="in_watchlist"> Already in watchlist</button>
           )}
         </div>
 

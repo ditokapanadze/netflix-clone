@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 import { auth } from "../firebase.js";
 import PlansScreen from "./PlansScreen";
+import { useHistory } from "react-router-dom";
 import firebase from "firebase";
 
 function ProfileScreen() {
@@ -12,6 +13,7 @@ function ProfileScreen() {
   const [file, setFile] = useState("");
   const [preview, setPreview] = useState(null);
   const inputFile = useRef(null);
+  let history = useHistory();
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -42,7 +44,9 @@ function ProfileScreen() {
 
       <div className="profileScreen_body">
         <h1>Edit profile</h1>
-
+        <button onClick={() => history.push("/wathclist")}>
+          See your watchlist
+        </button>
         <div className="profileScreen_info">
           <div className="avatar_container">
             <img

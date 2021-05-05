@@ -16,6 +16,7 @@ import {
 } from "react-router-dom";
 import { auth } from "./firebase";
 import MoviePage from "./screens/MoviePage";
+import Watchlist from "./screens/Watchlist";
 
 function App() {
   const dispatch = useDispatch();
@@ -86,7 +87,7 @@ function App() {
             });
           })
           .catch((error) => {
-            console.log(error);
+            console.log(error.message);
           });
 
         firebase
@@ -100,7 +101,7 @@ function App() {
                 email: userAuth.email,
                 avatarUrl: imgUrl,
                 // watchList: localStorage.getItem(JSON.parse("watchList")),
-                watchList: "asdasdasdasda",
+                watchList: JSON.parse(localStorage.getItem("watchList")),
               })
             );
             localStorage.setItem("uid", userAuth.uid);
@@ -152,6 +153,9 @@ function App() {
           <Switch>
             <Route path="/profile">
               <ProfileScreen />
+            </Route>
+            <Route path="/wathclist">
+              <Watchlist />
             </Route>
 
             <Route path="/movie/:slug?">
