@@ -42,15 +42,10 @@ function Watchlist() {
     const arr = [...moviesId].map((_, i) => moviesId[i]);
     arr.map((x) => {
       console.log(x);
+      console.log("x");
+      setMoviesId((prevState) => prevState.concat(x));
     });
   };
-
-  useEffect(() => {
-    let arr = [...moviesId].map((_, i) => moviesId[i]);
-    console.log(arr);
-    console.log(moviesId);
-    console.log("8sd");
-  }, [moviesId]);
 
   useEffect(() => {
     let movieId = [];
@@ -62,12 +57,25 @@ function Watchlist() {
         snapshot.forEach((snap) => {
           movieId.push(snap.data());
         });
+        console.log("g");
+        const arr = [...movieId].map((_, i) => movieId[i]);
+        arr.map((x) => {
+          console.log(x.listItem);
+          console.log("x");
+          setMoviesId((prevState) => prevState.concat(x));
+          console.log(moviesId);
+          axios.get(`/movie/${x.listItem}?api_key=${API_KEY}`).then((res) => {
+            setMovies((prevState) => prevState.concat(res.data));
+          });
+        });
       })
       .catch((error) => {
         console.log(error);
       });
-    setMoviesId(movieId);
 
+    moviesId.map((i) => {
+      console.log("ffff");
+    });
     // movieId.map((x) => {
     //   console.log(x);
     //   axios.get(`/movie/${x.listItem}?api_key=${API_KEY}`).then((res) => {
@@ -75,6 +83,12 @@ function Watchlist() {
     //   });
     // });
   }, []);
+
+  // useEffect(() => {
+  //   asd();
+  //   console.log(moviesId);
+  //   console.log("test");
+  // }, []);
 
   const handleClick = (id) => {
     history.push(`/movie/${id}`);
@@ -99,7 +113,8 @@ function Watchlist() {
             });
         })
       );
-
+    const res = movies.filter((movie) => movie.id !== id);
+    setMovies(res);
     // .delete()
     // .then((result) => {
     //   console.log(result);
