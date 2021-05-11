@@ -43,10 +43,10 @@ function ProfileScreen() {
       <Nav />
 
       <div className="profileScreen_body">
-        <h1>Edit profile</h1>
-        <button onClick={() => history.push("/wathclist")}>
+        <h1>Edit profile </h1>
+        {/* <button onClick={() => history.push("/wathclist")}>
           See your watchlist
-        </button>
+        </button> */}
         <div className="profileScreen_info">
           <div className="avatar_container">
             <img
@@ -74,6 +74,12 @@ function ProfileScreen() {
 
           <div className="profileScreen_deails">
             <h2>{user.email}</h2>
+            <h2
+              onClick={() => history.push("/wathclist")}
+              className="profile_watchlist"
+            >
+              Your watchlist
+            </h2>
             <div className="profileScreen_plans">
               <div className="profileScreen_plans">
                 <h3>Plans</h3>

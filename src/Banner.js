@@ -8,7 +8,7 @@ import db from "./firebase";
 import { useSelector } from "react-redux";
 import { selectUser } from "./features/userSlice";
 import { loadStripe } from "@stripe/stripe-js";
-
+import { useHistory } from "react-router-dom";
 function Banner() {
   const [movie, setMovie] = useState([]);
   const [title, setTitle] = useState([]);
@@ -17,6 +17,7 @@ function Banner() {
   const [list, setList] = useState([]);
   const [button, setButton] = useState("");
   const [state, setState] = useState(false);
+  let history = useHistory();
   const inventory = [
     { name: "apples", quantity: 2 },
     { name: "bananas", quantity: 0 },
@@ -142,15 +143,31 @@ function Banner() {
             watchlist?.map((x) => x.listItem).indexOf(movie?.id) ==
               undefined) &&
           state === false ? (
-            <button
-              type="button"
-              onClick={() => addTolist(movie.id)}
-              className="banner_button"
-            >
-              Add in watchlist
-            </button>
+            <>
+              <button
+                type="button"
+                onClick={() => addTolist(movie.id)}
+                className="banner_button"
+              >
+                Add in watchlist
+              </button>
+              <div
+                onClick={() => history.push("/wathclist")}
+                className="wathclist_popup"
+              >
+                view watchlist <text>&#8594;</text>{" "}
+              </div>
+            </>
           ) : (
-            <button className="in_watchlist"> Already in watchlist</button>
+            <>
+              <button className="in_watchlist"> Already in watchlist</button>
+              <div
+                onClick={() => history.push("/wathclist")}
+                className="wathclist_popup"
+              >
+                view watchlist <text>&#8594;</text>{" "}
+              </div>
+            </>
           )}
         </div>
 

@@ -133,30 +133,34 @@ function Watchlist() {
     <div className="watchlist">
       <Nav />
       <div className="watchlist_content">
-        {movies.map((movie) => (
-          <div className="watchlist_container">
-            <img
-              class="watchlist_poster"
-              src={`${basePhoto}${movie.poster_path}`}
-            />
-            <div className="movie_info">
-              <h4>{movie.title}</h4>
-              <p>{movie.overview}</p>
-              <button
-                className="info_btn"
-                onClick={() => handleClick(movie.id)}
-              >
-                see full info
-              </button>
-              <button
-                onClick={() => handleDelete(movie.id)}
-                className="remove_btn"
-              >
-                remove from wathclist
-              </button>
+        {movies.length < 1 ? (
+          <p class="empty">Your watchlist is empty </p>
+        ) : (
+          movies.map((movie) => (
+            <div className="watchlist_container">
+              <img
+                class="watchlist_poster"
+                src={`${basePhoto}${movie.poster_path}`}
+              />
+              <div className="movie_info">
+                <h4>{movie.title}</h4>
+                <p>{movie.overview}</p>
+                <button
+                  className="info_btn"
+                  onClick={() => handleClick(movie.id)}
+                >
+                  see full info
+                </button>
+                <button
+                  onClick={() => handleDelete(movie.id)}
+                  className="remove_btn"
+                >
+                  remove from wathclist
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          ))
+        )}
       </div>
     </div>
   );

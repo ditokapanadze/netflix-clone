@@ -142,3 +142,34 @@
   background-color: rgb(20, 13, 13);
   padding-bottom: 0.5rem;
 }
+
+.banner_buttons {
+  position: relative;
+}
+.wathclist_popup {
+  display: inline-block;
+  padding: 5px 25px;
+  border-radius: 8px;
+  background-color: gray;
+  cursor: pointer;
+  position: absolute;
+  top: 35px;
+  left: 110px;
+  visibility: hidden;
+  transition: visibility 0.5s ease;
+}
+.banner_button:hover + .wathclist_popup {
+  visibility: visible;
+}
+
+.wathclist_popup:hover {
+  visibility: visible;
+  background-color: rgb(206, 199, 199);
+}
+
+.in_watchlist:hover ~ .wathclist_popup {
+  visibility: visible;
+}
+.in_watchlist:hover > .wathclist_popup {
+  visibility: visible;
+}

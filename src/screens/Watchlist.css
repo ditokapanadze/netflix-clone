@@ -16,7 +16,7 @@
   align-items: center;
   flex-wrap: wrap;
   margin: 100px;
-  background-color: blue;
+
   width: 40%;
 }
 
@@ -46,4 +46,9 @@
   border-style: none;
   outline: none;
   cursor: pointer;
+}
+
+.empty {
+  font-size: 40px;
+  font-weight: 700;
 }

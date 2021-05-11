@@ -6,6 +6,9 @@ import requests from "../Requsets";
 import { useHistory, useParams } from "react-router-dom";
 import { userSlice } from "../features/userSlice";
 import Youtube from "react-youtube";
+import db from "../firebase";
+import { useSelector } from "react-redux";
+import { selectUser } from "../features/userSlice";
 
 const API_KEY = "0b753f6cb66d441479c1e758d1f8f62e";
 
@@ -17,7 +20,7 @@ function MoviePage() {
   let history = useHistory();
   const [trailerUrl, setTrailerUrl] = useState("");
   const imdb = movie.imdb_id;
-
+  const user = useSelector(selectUser);
   useEffect(() => {
     axios
       .get(`/movie/${slug}/videos?api_key=0b753f6cb66d441479c1e758d1f8f62e`)
@@ -87,6 +90,13 @@ function MoviePage() {
     history.go();
   };
 
+  const addMovie = (id) => {
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("watchList")
+      .add({ listItem: id });
+  };
+
   return (
     <div className="movie_page">
       <Nav />
@@ -98,12 +108,23 @@ function MoviePage() {
           alt=""
         />
         <div className="info_container">
-          <h1 className="">{movie.title}</h1>
+          <div className="info_header">
+            <div
+              onClick={() => addMovie(movie.id)}
+              className="moviepage_add_btn"
+            >
+              <i class="fas fa-plus"></i>
+            </div>
+            <h1 className="">{movie.title}</h1>
+
+            <span className="tooltip">click to add to watchlist</span>
+          </div>
+
           <p className="movie_page_overview">{movie.overview}</p>
           <ul>
             <li>
               <p>
-                Genre:{" "}
+                <span> Genre :</span>
                 {movie.genres &&
                   movie.genres.map((item, index) =>
                     index === movie.genres.length - 1
@@ -116,15 +137,26 @@ function MoviePage() {
               </p>
             </li>
             <li>
-              <p>year : {movie.release_date?.slice(0, 4)}</p>
+              <p>
+                {" "}
+                <span>year :</span> {movie.release_date?.slice(0, 4)}
+              </p>
             </li>
             <li>
-              <p>run time : {movie.runtime} minutes</p>
+              <p>
+                <span>run time : </span>
+                {movie.runtime} minutes
+              </p>
             </li>
             <li>
               {crew.map(
                 (member) =>
-                  member.job === "Director" && <p> Director: {member.name}</p>
+                  member.job === "Director" && (
+                    <p>
+                      {" "}
+                      <span>Director : </span> {member.name}
+                    </p>
+                  )
               )}
             </li>
           </ul>

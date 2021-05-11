@@ -22,7 +22,7 @@
 }
 
 .profileScreen_body h1 {
-  font-size: 60px;
+  font-size: 45px;
   font-weight: 400;
   border-bottom: 1px solid #282c2d;
   margin-bottom: 20px;
@@ -58,4 +58,15 @@
 .profileScreen_plans {
   margin-top: 20px;
   border-bottom: 1px solid #282c2d;
+}
+
+.profile_watchlist {
+  background-color: #e50914 !important;
+  margin-top: 10px;
+  cursor: pointer;
+  opacity: 0.8;
+}
+
+.profile_watchlist:hover {
+  opacity: 1;
 }
