@@ -20,7 +20,6 @@ function ProfileScreen() {
       setFile(e.target.files[0]);
       let src = URL.createObjectURL(e.target.files[0]);
       setPreview(src);
-      console.log(src);
     }
   };
 
@@ -32,12 +31,9 @@ function ProfileScreen() {
       .storage()
       .ref("users/" + user.uid + "/profile.jpg")
       .put(file)
-      .then((res) => {
-        console.log(res);
-      });
+      .then((res) => {});
   };
 
-  console.log(user);
   return (
     <div className="profileScreen">
       <Nav />

@@ -8,11 +8,17 @@
   justify-content: center; */
   padding-top: 100px;
 }
+.test {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 .movie_poster {
   /* margin-top: 100px;
   padding: 50px;
   height: 60%; */
+  width: auto;
   height: 500px;
   padding-left: 20px;
 }
@@ -36,16 +42,13 @@
   padding: 10px;
 }
 .cast_container {
-  width: 100%;
   height: 300px;
 
   display: flex;
   margin-top: 10px;
 }
 .actor_container {
-  height: 150px;
-  width: 150px;
-  padding: 15px;
+  margin: 15px;
 }
 
 .prof_pic {
@@ -60,7 +63,7 @@
 }
 
 .page_trailer {
-  margin-left: calc(50vw - 350px);
+  /* margin-left: calc(50vw - 350px); */
 }
 
 .similar_container {
@@ -191,12 +194,97 @@
   padding: 2px;
   top: 15px;
   left: 40px;
+  transition-delay: 0.3s;
 }
 .check {
   cursor: pointer;
   padding: 5px;
-  background-color: aquamarine;
 }
 .check:hover ~ .tooltip2 {
   visibility: visible;
+}
+
+.check:hover ~ .wathclist_popup1 {
+  visibility: visible;
+}
+.info_container {
+}
+
+@media screen and (max-width: 1290px) {
+  .cast_container {
+    flex-wrap: wrap;
+    height: 500px;
+  }
+}
+
+@media screen and (max-width: 1140px) {
+  .movie_page_container {
+    margin: 0 auto;
+    width: 80%;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  .poster_container {
+    width: 50%;
+    height: 600px;
+    display: flex;
+    justify-content: center;
+  }
+  .movie_poster {
+    margin-left: 0 auto;
+    height: 100%;
+  }
+  .info_container {
+    width: 90%;
+  }
+  .info_header {
+    justify-content: center;
+  }
+}
+
+@media screen and (max-width: 734px) {
+  .prof_pic {
+    width: 100px;
+  }
+  .page_trailer {
+    width: 500px;
+  }
+}
+
+@media screen and (max-width: 704px) {
+  .movie_page_container {
+    width: 100%;
+  }
+}
+
+@media screen and (max-width: 566px) {
+  .prof_pic {
+  }
+  .actor_container {
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+  .page_trailer {
+    width: 450px;
+  }
+}
+@media screen and (max-width: 500px) {
+  .prof_pic {
+    width: 130px;
+  }
+  .actor_container {
+  }
+  .page_trailer {
+    width: 400px;
+  }
+  .cast_container {
+    align-items: center;
+    justify-content: space-around;
+    height: 800px;
+  }
 }

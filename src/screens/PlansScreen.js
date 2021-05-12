@@ -22,8 +22,8 @@ function PlansScreen() {
           setSubscription({
             name: subscription.data().items[0].price.product.name.toLowerCase(),
             current_period_end: subscription.data().current_period_end.seconds,
-            current_period_start: subscription.data().current_period_start
-              .seconds,
+            current_period_start:
+              subscription.data().current_period_start.seconds,
           });
         });
       });
@@ -31,6 +31,7 @@ function PlansScreen() {
 
   // პროდუქტების აღწერა და ფასები
   useEffect(() => {
+    console.log("fg");
     db.collection("products")
       .where("active", "==", true)
       .get()
@@ -38,7 +39,7 @@ function PlansScreen() {
         const products = {};
         querySnapshot.forEach(async (productDoc) => {
           products[productDoc.id] = productDoc.data();
-
+          console.log("sdf");
           //  productDoc.data() არ მოაქვს ფასები, ფასები ცალკე კოლექცია და ამიტო ცალკე უნდა ამოვიღოთ
           // ქვედა ფუნქცია მაგას აკეთებს
           //productDoc.ref იმისთვის გვჭირდება რო იგივე პროდუქტის price ამოვიღოთ
@@ -53,7 +54,7 @@ function PlansScreen() {
         setProducts(products);
       });
   }, []);
-
+  console.log(products);
   const loadChekout = async (priceId) => {
     // user.uid რედაქსიდან მოდის ეს,  docRef იქნება იმ იუზერის მონაცემები ვინც დალოგინებულია
     // .collection("checkout_sessions") არის ახალი ბაზა რომელიც შეიქმნება როცა იუზერი subscribe-ს გააკეთებს
@@ -91,7 +92,6 @@ function PlansScreen() {
   //   }
   // };
 
-  console.log(subscription?.name);
   return (
     <div>
       {subscription && (

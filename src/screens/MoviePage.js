@@ -17,8 +17,10 @@ function MoviePage() {
   const [crewCast, setCrewCast] = useState([]);
   const [crew, setCrew] = useState([]);
   const [similar, setSimilar] = useState([]);
+  const [test, setTest] = useState([]);
   let history = useHistory();
   const [trailerUrl, setTrailerUrl] = useState("");
+  const [button, setButton] = useState(false);
   const imdb = movie.imdb_id;
   const user = useSelector(selectUser);
   useEffect(() => {
@@ -91,28 +93,60 @@ function MoviePage() {
   };
 
   const addMovie = (id) => {
+    setButton(true);
     db.collection("customers")
       .doc(user.uid)
       .collection("watchList")
       .add({ listItem: id });
   };
 
+  useEffect(() => {
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("watchList")
+      .get()
+      .then((snapshot) => {
+        let movieId = [];
+        snapshot.forEach((snap) => {
+          movieId.push(snap.data());
+        });
+        setTest(movieId);
+      });
+  }, []);
+  console.log(test[2]);
+  const [products, setProducts] = useState([]);
   // useEffect(() => {
-  //   console.log("test");
-  //   let Id = [];
-  //   db.collection("customers")
-  //     .doc(user.uid)
-  //     .collection("watchList")
+  //   console.log("fg");
+  //   db.collection("products")
+  //     .where("active", "==", true)
   //     .get()
-  //     .then((snapshot) => {
-  //       snapshot.forEach((snap) => {
-  //         Id.push(snap.data());
-  //         console.log(snap.data());
+  //     .then((querySnapshot) => {
+  //       const products = {};
+  //       querySnapshot.forEach(async (productDoc) => {
+  //         products[productDoc.id] = productDoc.data();
+  //         console.log("sdf");
+  //         //  productDoc.data() არ მოაქვს ფასები, ფასები ცალკე კოლექცია და ამიტო ცალკე უნდა ამოვიღოთ
+  //         // ქვედა ფუნქცია მაგას აკეთებს
+  //         //productDoc.ref იმისთვის გვჭირდება რო იგივე პროდუქტის price ამოვიღოთ
+  //         const priceSnap = await productDoc.ref.collection("prices").get();
+  //         priceSnap.docs.forEach((price) => {
+  //           products[productDoc.id].prices = {
+  //             priceId: price.id,
+  //             priceData: price.data(),
+  //           };
+  //         });
   //       });
+  //       setProducts(products);
   //     });
+  //   console.log(products);
   // }, []);
 
+  useEffect(() => {
+    console.log("testaaaaaaa");
+  }, []);
+
   const deleteItem = () => {
+    setButton(false);
     console.log(typeof slug);
     db.collection("customers")
       .doc(user.uid)
@@ -141,16 +175,19 @@ function MoviePage() {
       <Nav />
 
       <div className="movie_page_container">
-        <img
-          className="movie_poster"
-          src={`${basePhoto}${movie.poster_path}`}
-          alt=""
-        />
+        <div className="poster_container">
+          <img
+            className="movie_poster"
+            src={`${basePhoto}${movie.poster_path}`}
+            alt=""
+          />
+        </div>
+
         <div className="info_container">
           <div className="info_header">
-            {watchlist?.map((x) => x.listItem).indexOf(movie?.id) < 0 ||
-            watchlist?.map((x) => x.listItem).indexOf(movie?.id) ==
-              undefined ? (
+            {(test?.map((x) => x.listItem).indexOf(movie?.id) < 0 ||
+              test?.map((x) => x.listItem).indexOf(movie?.id) == undefined) &&
+            button == false ? (
               <div
                 onClick={() => addMovie(movie.id)}
                 className="moviepage_add_btn"
@@ -247,7 +284,7 @@ function MoviePage() {
 
           <div className="cast_container">
             {crewCast.map((actor, index) => {
-              if (index < 5) {
+              if (index < 6) {
                 return (
                   <div className="actor_container">
                     <img
