@@ -97,6 +97,45 @@ function MoviePage() {
       .add({ listItem: id });
   };
 
+  // useEffect(() => {
+  //   console.log("test");
+  //   let Id = [];
+  //   db.collection("customers")
+  //     .doc(user.uid)
+  //     .collection("watchList")
+  //     .get()
+  //     .then((snapshot) => {
+  //       snapshot.forEach((snap) => {
+  //         Id.push(snap.data());
+  //         console.log(snap.data());
+  //       });
+  //     });
+  // }, []);
+
+  const deleteItem = () => {
+    console.log(typeof slug);
+    db.collection("customers")
+      .doc(user.uid)
+      .collection("watchList")
+      .where("listItem", "==", Number(slug))
+      .get()
+      .then((x) =>
+        x.forEach((y) => {
+          db.collection("customers")
+            .doc(user.uid)
+            .collection("watchList")
+            .doc(y.id)
+            .delete()
+            .then((res) => {
+              console.log(res);
+            });
+        })
+      )
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+  const watchlist = user.watchList;
   return (
     <div className="movie_page">
       <Nav />
@@ -109,14 +148,29 @@ function MoviePage() {
         />
         <div className="info_container">
           <div className="info_header">
-            <div
-              onClick={() => addMovie(movie.id)}
-              className="moviepage_add_btn"
-            >
-              <i class="fas fa-plus"></i>
-            </div>
-            <h1 className="">{movie.title}</h1>
+            {watchlist?.map((x) => x.listItem).indexOf(movie?.id) < 0 ||
+            watchlist?.map((x) => x.listItem).indexOf(movie?.id) ==
+              undefined ? (
+              <div
+                onClick={() => addMovie(movie.id)}
+                className="moviepage_add_btn"
+              >
+                <i class="fas fa-plus"></i>
+              </div>
+            ) : (
+              <div onClick={deleteItem} className="check">
+                <i class="fas fa-check"></i>
+              </div>
+            )}
 
+            <h1 className="">{movie.title}</h1>
+            <span className="tooltip2">click to remove from watchlist</span>
+            <div
+              onClick={() => history.push("/wathclist")}
+              className="wathclist_popup1"
+            >
+              view watchlist <text>&#8594;</text>{" "}
+            </div>
             <span className="tooltip">click to add to watchlist</span>
           </div>
 
@@ -211,7 +265,10 @@ function MoviePage() {
           </div>
         </div>
       </div>
-      {<Youtube videoId={trailerUrl} opts={opts} className="page_trailer" />}
+      <div className="test">
+        {<Youtube videoId={trailerUrl} opts={opts} className="page_trailer" />}
+      </div>
+
       <h3 className="simliar_head">You may also like</h3>
       <div className="similar_container">
         {similar.map((movie) => {

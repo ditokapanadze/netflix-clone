@@ -95,7 +95,7 @@ function Watchlist() {
   };
 
   const handleDelete = (id) => {
-    //ბაზიდან შლის წათჩლისტის ელემენტს
+    console.log(typeof id);
     db.collection("customers")
       .doc(user.uid)
       .collection("watchList")

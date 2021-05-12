@@ -3,7 +3,6 @@
 }
 
 .movie_page_container {
-  height: 58vh;
   display: flex;
   /* align-items: center;
   justify-content: center; */
@@ -14,7 +13,7 @@
   /* margin-top: 100px;
   padding: 50px;
   height: 60%; */
-  height: 80%;
+  height: 500px;
   padding-left: 20px;
 }
 
@@ -59,12 +58,11 @@
 .imdb_logo {
   padding: 10px;
 }
-.movie_page_trailer {
-  width: 200px;
-}
+
 .page_trailer {
   margin-left: calc(50vw - 350px);
 }
+
 .similar_container {
   display: flex;
 
@@ -100,6 +98,7 @@
 .simliar_head {
   color: antiquewhite;
   margin-left: 100px;
+  margin-top: 50px;
 }
 
 .moviepage_add_btn {
@@ -112,6 +111,26 @@
 .moviepage_add_btn:hover {
   background-color: grey;
 }
+.moviepage_add_btn:hover ~ .wathclist_popup1 {
+  visibility: visible;
+}
+.wathclist_popup1 {
+  display: inline-block;
+  padding: 5px 25px;
+  border-radius: 8px;
+  background-color: gray;
+  cursor: pointer;
+  position: absolute;
+  top: 52px;
+  left: 15px;
+  color: #fff;
+  visibility: hidden;
+  transition: visibility 0.5s ease;
+}
+.wathclist_popup1:hover {
+  visibility: visible;
+  background-color: rgb(158, 151, 151);
+}
 .fa-plus {
   font-size: 25px;
 }
@@ -123,8 +142,8 @@
   font-size: 14px;
   padding: 2px;
   position: absolute;
-  bottom: -8px;
-  left: 20px;
+  bottom: 25px;
+  left: 35px;
 }
 
 .moviepage_add_btn:hover ~ .tooltip {
@@ -151,5 +170,33 @@
 }
 
 .info_container ul li span {
-  margin-right: 20px;
+  margin-right: 5px;
+}
+
+.fa-check:hover ~ .wathclist_popup1 {
+  visibility: visible;
+}
+.fa-check {
+  cursor: pointer;
+  font-size: 25px;
+  color: #fff;
+}
+.tooltip2 {
+  visibility: hidden;
+  position: absolute;
+  visibility: hidden;
+  background-color: white;
+  color: black;
+  font-size: 14px;
+  padding: 2px;
+  top: 15px;
+  left: 40px;
+}
+.check {
+  cursor: pointer;
+  padding: 5px;
+  background-color: aquamarine;
+}
+.check:hover ~ .tooltip2 {
+  visibility: visible;
 }
