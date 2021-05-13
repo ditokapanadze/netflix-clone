@@ -46,7 +46,7 @@ function Banner() {
     } else {
       axios
         .get(
-          `/movie/${movie?.id}/videos?api_key=0b753f6cb66d441479c1e758d1f8f62e`
+          `/movie/${movie?.id}/videos?api_key=${process.env.REACT_APP_TMDB_KEY}`
         )
         .then((res) => {
           setTrailerUrl(res.data.results[0].key);

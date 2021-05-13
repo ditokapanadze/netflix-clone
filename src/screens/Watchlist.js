@@ -9,7 +9,7 @@ import "./Watchlist.css";
 import db from "../firebase";
 function Watchlist() {
   const [movies, setMovies] = useState([]);
-  const API_KEY = "0b753f6cb66d441479c1e758d1f8f62e";
+
   const user = useSelector(selectUser);
   const basePhoto = "https://image.tmdb.org/t/p/original/";
   let history = useHistory();
@@ -30,9 +30,13 @@ function Watchlist() {
         arr.map((x) => {
           setMoviesId((prevState) => prevState.concat(x));
 
-          axios.get(`/movie/${x.listItem}?api_key=${API_KEY}`).then((res) => {
-            setMovies((prevState) => prevState.concat(res.data));
-          });
+          axios
+            .get(
+              `/movie/${x.listItem}?api_key=${process.env.REACT_APP_TMDB_KEY}`
+            )
+            .then((res) => {
+              setMovies((prevState) => prevState.concat(res.data));
+            });
         });
       })
       .catch((error) => {});

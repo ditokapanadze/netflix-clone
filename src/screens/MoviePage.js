@@ -10,8 +10,6 @@ import db from "../firebase";
 import { useSelector } from "react-redux";
 import { selectUser } from "../features/userSlice";
 
-const API_KEY = "0b753f6cb66d441479c1e758d1f8f62e";
-
 function MoviePage() {
   const [movie, setMovie] = useState([]);
   const [crewCast, setCrewCast] = useState([]);
@@ -25,7 +23,7 @@ function MoviePage() {
   const user = useSelector(selectUser);
   useEffect(() => {
     axios
-      .get(`/movie/${slug}/videos?api_key=0b753f6cb66d441479c1e758d1f8f62e`)
+      .get(`/movie/${slug}/videos?api_key=${process.env.REACT_APP_TMDB_KEY}`)
       .then((res) => {
         console.log(res.data.results[0].key);
         setTrailerUrl(res.data.results[0].key);
@@ -36,25 +34,29 @@ function MoviePage() {
   }, []);
 
   useEffect(() => {
-    axios.get(`/movie/${slug}?api_key=${API_KEY}`).then((request) => {
-      setMovie(request.data);
+    axios
+      .get(`/movie/${slug}?api_key=${process.env.REACT_APP_TMDB_KEY}`)
+      .then((request) => {
+        setMovie(request.data);
 
-      axios
-        .get(`/movie/${slug}/credits?api_key=${API_KEY}`)
-        .then((request) => {
-          setCrewCast(request.data.cast);
-          setCrew(request.data.crew);
-        })
-        // .then((x) => {
-        //   for (const property in crewCast.crew) {
-        //     console.log({ property });
-        //   }
-        //   console.log(crewCast.crew);
-        // })
-        .catch((error) => {
-          console.log(error);
-        });
-    });
+        axios
+          .get(
+            `/movie/${slug}/credits?api_key=${process.env.REACT_APP_TMDB_KEY}`
+          )
+          .then((request) => {
+            setCrewCast(request.data.cast);
+            setCrew(request.data.crew);
+          })
+          // .then((x) => {
+          //   for (const property in crewCast.crew) {
+          //     console.log({ property });
+          //   }
+          //   console.log(crewCast.crew);
+          // })
+          .catch((error) => {
+            console.log(error);
+          });
+      });
   }, []);
   const basePhoto = "https://image.tmdb.org/t/p/original/";
   let { slug } = useParams();
@@ -81,7 +83,7 @@ function MoviePage() {
 
   useEffect(() => {
     axios
-      .get(`movie/${slug}/similar?api_key=${API_KEY}`)
+      .get(`movie/${slug}/similar?api_key=${process.env.REACT_APP_TMDB_KEY}`)
       .then((response) => setSimilar(response.data.results));
   }, []);
 

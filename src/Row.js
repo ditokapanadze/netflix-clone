@@ -36,13 +36,13 @@ export default function Row({ title, fetchURL, isLargeRow = false }) {
               (!isLargeRow && movie.backdrop_path)) && (
               <div className="movie_row_container">
                 <img
+                  alt={movie.name}
                   onClick={() => handleClick(movie.id)}
                   className={`row_poster ${isLargeRow && "row_posterLarge"}`}
                   key={movie.id}
                   src={`${base_url}${
                     isLargeRow ? movie.poster_path : movie.backdrop_path
                   }`}
-                  alt={movie.name}
                 />
                 <p className="movie_slider_title">
                   {movie.title || movie.name}

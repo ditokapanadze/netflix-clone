@@ -75,9 +75,7 @@ function PlansScreen() {
       }
       if (sessionId) {
         // ჩექაუთის ფანჯარაზე გადასვლა გადასვლა
-        const stripe = await loadStripe(
-          "pk_test_51IgDpME12oV19bqg8pQC8dg22uOV9spMMgr5l0mEZdBq49qemfMueoZl6nqubJsloJV5yivAfM5U7mVIXpDAz1eo00vEYOyAnE"
-        );
+        const stripe = await loadStripe(process.env.REACT_APP_STRIPE_KEY);
         stripe.redirectToCheckout({ sessionId });
       }
     });
