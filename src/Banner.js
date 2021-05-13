@@ -7,25 +7,19 @@ import Youtube from "react-youtube";
 import db from "./firebase";
 import { useSelector } from "react-redux";
 import { selectUser } from "./features/userSlice";
-import { loadStripe } from "@stripe/stripe-js";
+
 import { useHistory } from "react-router-dom";
 function Banner() {
   const [movie, setMovie] = useState([]);
-  const [title, setTitle] = useState([]);
+
   const [trailerUrl, setTrailerUrl] = useState("");
   const [active, setActive] = useState(false);
-  const [list, setList] = useState([]);
-  const [button, setButton] = useState("");
+
   const [state, setState] = useState(false);
   let history = useHistory();
-  const inventory = [
-    { name: "apples", quantity: 2 },
-    { name: "bananas", quantity: 0 },
-    { name: "cherries", quantity: 5 },
-  ];
 
   // const [x, setX] = useState(0);
-  const sacdeli = "aba vnaxot ra gamova";
+
   const user = useSelector(selectUser);
   // რენდომ ფილმის ინფორმაციის ამოღება
   useEffect(() => {
@@ -55,7 +49,6 @@ function Banner() {
           `/movie/${movie?.id}/videos?api_key=0b753f6cb66d441479c1e758d1f8f62e`
         )
         .then((res) => {
-          console.log(res.data.results[0].key);
           setTrailerUrl(res.data.results[0].key);
         })
         .catch((error) => {
@@ -76,7 +69,6 @@ function Banner() {
     setActive(false);
   };
 
-  console.log(state);
   const addTolist = (id) => {
     // customer-ში ქმნის ახალ კოლექციას ვოშლისტს და ამატებს ფილმის აიდის
     db.collection("customers")
@@ -85,33 +77,10 @@ function Banner() {
       .add({ listItem: movie?.id });
 
     setState(true);
-    console.log(state);
-    console.log(id);
   };
 
-  var array = [{ name: "string 1" }, { name: "string 2" }];
   const watchlist = user.watchList;
-  console.log(watchlist);
-  // const cc = () => {
-  //   watchlist.map((x, item) => console.log(x));
-  // };
 
-  // cc();
-  // let x = 12;
-  // const check = () => {
-  //   if (x < 10) {
-  //     return true;
-  //   } else {
-  //     return false;
-  //   }
-  // };
-  // console.log(watchlist.map((x) => x.name).indexOf("string 2"));
-  // console.log(watchlist?.map((x) => x.listItem).indexOf(movie?.id));
-
-  // console.log(watchlist?.map((x) => x.listItem).indexOf(movie?.id));
-
-  console.log(typeof watchlist);
-  console.log(watchlist);
   return (
     <header
       className="banner"
@@ -140,7 +109,7 @@ function Banner() {
           <button className="banner_button">Play</button>
 
           {(watchlist?.map((x) => x.listItem).indexOf(movie?.id) < 0 ||
-            watchlist?.map((x) => x.listItem).indexOf(movie?.id) ==
+            watchlist?.map((x) => x.listItem).indexOf(movie?.id) ===
               undefined) &&
           state === false ? (
             <>

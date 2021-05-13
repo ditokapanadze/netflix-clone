@@ -1,4 +1,3 @@
-import { queryAllByAltText } from "@testing-library/dom";
 import React, { useState, useEffect } from "react";
 import "./PlansScreen.css";
 import db from "../firebase";

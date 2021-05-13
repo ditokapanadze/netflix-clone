@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Row.css";
 import axios from "./axios";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import SwiperCore, { Navigation, Pagination, Scrollbar, A11y } from "swiper";
 import "swiper/swiper-bundle.css";
@@ -17,7 +17,7 @@ export default function Row({ title, fetchURL, isLargeRow = false }) {
   useEffect(() => {
     async function fetchData() {
       const request = await axios.get(fetchURL);
-      console.log(request.data.results[0]);
+
       setMovies(request.data.results);
     }
     fetchData();

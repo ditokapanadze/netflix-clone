@@ -6,7 +6,6 @@ import Row from "../Row";
 import requests from "../Requsets";
 import Search from "../Search";
 function HomeScreen() {
-  console.log("asddddddd");
   return (
     <div className="homeScreen">
       <Nav />

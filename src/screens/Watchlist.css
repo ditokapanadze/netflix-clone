@@ -51,3 +51,33 @@
   font-size: 40px;
   font-weight: 700;
 }
+
+@media screen and (max-width: 900px) {
+  .watchlist_content {
+    width: 600px;
+  }
+}
+
+@media screen and (max-width: 620px) {
+  .watchlist_content {
+    width: auto;
+    margin-left: 40px;
+    margin-right: 40px;
+  }
+
+  .watchlist_container {
+    flex-wrap: wrap;
+    flex-direction: column;
+  }
+  .watchlist_poster {
+    margin: 0 auto;
+    height: 300px;
+    width: auto;
+  }
+  .movie_info {
+    margin-top: 20px;
+  }
+  .movie_info h4 {
+    text-align: center;
+  }
+}

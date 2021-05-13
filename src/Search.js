@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import "./Search.css";
 import axios from "./axios";
 import requests from "./Requsets";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 function Search() {
   const [search, setSearch] = useState("");
@@ -78,6 +78,7 @@ function Search() {
                 {" "}
                 <img
                   className="search_img"
+                  alt={movies.title}
                   width="100"
                   src={`https://image.tmdb.org/t/p/original/${movies.poster_path}`}
                 />

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const userSlice = createSlice({
   name: "user",
@@ -7,7 +7,6 @@ export const userSlice = createSlice({
       uid: localStorage.getItem("uid"),
       email: localStorage.getItem("email"),
       avatarUrl: localStorage.getItem("avatarUrl"),
-      watchList: [],
     },
   },
 

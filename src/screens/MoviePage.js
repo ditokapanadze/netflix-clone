@@ -2,9 +2,9 @@ import React, { useEffect, useState } from "react";
 import "./MoviePage.css";
 import Nav from "../Nav";
 import axios from "../axios";
-import requests from "../Requsets";
+
 import { useHistory, useParams } from "react-router-dom";
-import { userSlice } from "../features/userSlice";
+
 import Youtube from "react-youtube";
 import db from "../firebase";
 import { useSelector } from "react-redux";
@@ -65,12 +65,12 @@ function MoviePage() {
   //   });
   // };
   // findDirector();
-  const director = () => {
-    crew.map((member) => {
-      member.job === "Director" && console.log(member.name);
-    });
-  };
-  director();
+  // const director = () => {
+  //   crew.map((member) => {
+  //     member.job === "Director" && console.log(member.name);
+  //   });
+  // };
+  // director();
   const opts = {
     height: "300",
     width: "700",
@@ -114,7 +114,7 @@ function MoviePage() {
       });
   }, []);
   console.log(test[2]);
-  const [products, setProducts] = useState([]);
+
   // useEffect(() => {
   //   console.log("fg");
   //   db.collection("products")
@@ -169,7 +169,7 @@ function MoviePage() {
         console.log(error);
       });
   };
-  const watchlist = user.watchList;
+
   return (
     <div className="movie_page">
       <Nav />
@@ -186,8 +186,8 @@ function MoviePage() {
         <div className="info_container">
           <div className="info_header">
             {(test?.map((x) => x.listItem).indexOf(movie?.id) < 0 ||
-              test?.map((x) => x.listItem).indexOf(movie?.id) == undefined) &&
-            button == false ? (
+              test?.map((x) => x.listItem).indexOf(movie?.id) === undefined) &&
+            button === false ? (
               <div
                 onClick={() => addMovie(movie.id)}
                 className="moviepage_add_btn"
@@ -288,6 +288,7 @@ function MoviePage() {
                 return (
                   <div className="actor_container">
                     <img
+                      alt={`${actor.name}`}
                       className="prof_pic"
                       src={`${basePhoto}${actor.profile_path}`}
                     />
@@ -316,6 +317,7 @@ function MoviePage() {
               onClick={() => handleClick(movie.id)}
             >
               <img
+                alt={movie.title}
                 className="similar_poster"
                 src={`${basePhoto}${movie.poster_path}`}
               />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import HomeScreen from "./screens/HomeScreen";
 import "./App.css";
 import firebase from "firebase";
@@ -6,14 +6,8 @@ import Login from "./screens/LoginScreen";
 import { useDispatch, useSelector } from "react-redux";
 import { logout, login, selectUser } from "./features/userSlice";
 import ProfileScreen from "./screens/ProfileScreen";
-import db from "./firebase";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link,
-  useParams,
-} from "react-router-dom";
+
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { auth } from "./firebase";
 import MoviePage from "./screens/MoviePage";
 import Watchlist from "./screens/Watchlist";
@@ -21,8 +15,8 @@ import Watchlist from "./screens/Watchlist";
 function App() {
   const dispatch = useDispatch();
   const user = useSelector(selectUser);
-  const [avatar, setAvatar] = useState("");
-  const [list, setList] = useState([]);
+
+  // const [list, setList] = useState([]);
 
   // const test = firebase.auth().currentUser;
   const basicAvatar =
@@ -74,21 +68,20 @@ function App() {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((userAuth) => {
       if (userAuth) {
-        db.collection("customers")
-          .doc(user.uid)
-          .collection("watchList")
-          .get()
-          .then((querySnapshot) => {
-            let test = [];
-            querySnapshot.forEach((snap) => {
-              test.push(snap.data());
-              setList(test);
-              localStorage.setItem("watchList", JSON.stringify(test));
-            });
-          })
-          .catch((error) => {
-            console.log(error.message);
-          });
+        // db.collection("customers")
+        //   .doc(user.uid)
+        //   .collection("watchList")
+        //   .get()
+        //   .then((querySnapshot) => {
+        //     let test = [];
+        //     querySnapshot.forEach((snap) => {
+        //       test.push(snap.data());
+        //       setList(test);
+        //     });
+        //   })
+        //   .catch((error) => {
+        //     console.log(error.message);
+        //   });
 
         firebase
           .storage()
@@ -100,8 +93,6 @@ function App() {
                 uid: userAuth.uid,
                 email: userAuth.email,
                 avatarUrl: imgUrl,
-                // watchList: localStorage.getItem(JSON.parse("watchList")),
-                watchList: JSON.parse(localStorage.getItem("watchList")),
               })
             );
             localStorage.setItem("uid", userAuth.uid);
@@ -117,7 +108,6 @@ function App() {
                 email: userAuth.email,
                 avatarUrl: basicAvatar,
                 // watchList: "asdasdasdasda",
-                watchList: JSON.parse(localStorage.getItem("watchList")),
               })
             );
             console.log(error);
@@ -132,13 +122,11 @@ function App() {
                 uid: userAuth.uid,
                 email: userAuth.email,
                 avatarUrl: basicAvatar,
-                watchList: localStorage.getItem(JSON.parse("watchList")),
               })
             );
           });
       } else {
         dispatch(logout());
-        localStorage.clear();
       }
     });
     return unsubscribe;
