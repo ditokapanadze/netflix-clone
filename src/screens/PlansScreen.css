@@ -3,6 +3,8 @@
   justify-content: space-between;
   padding: 20px;
   opacity: 0.8;
+
+  position: relative;
 }
 
 .plansScreen_plan:hover {
@@ -33,4 +35,25 @@
 }
 .avatar {
   width: 100px;
+}
+.hidden {
+  visibility: hidden;
+}
+.procces {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  background-color: aliceblue;
+  top: 0;
+  right: 0;
+  z-index: 2;
+  opacity: 0.5;
+}
+.procces p {
+  color: red;
+  font-size: 40px;
+  font-weight: 500;
 }

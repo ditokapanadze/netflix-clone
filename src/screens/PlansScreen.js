@@ -9,7 +9,7 @@ function PlansScreen() {
   const [products, setProducts] = useState([]);
   const user = useSelector(selectUser);
   const [subscription, setSubscription] = useState(null);
-
+  const [procces, setProcess] = useState("hidden");
   // ვამოწმებთ დალოგინებულ იუზერს უკვე აქვს უ არა რამე პაკეტი ნაყიდი, თუ ნაყიდი აქვს ვაბრუნებთ პაკეტის სახელს ყიდვის დროს და პაკეტის ვადას
   useEffect(() => {
     db.collection("customers")
@@ -55,6 +55,10 @@ function PlansScreen() {
   }, []);
   console.log(products);
   const loadChekout = async (priceId) => {
+    setProcess("");
+    setTimeout(() => {
+      setProcess("hidden");
+    }, 3000);
     // user.uid რედაქსიდან მოდის ეს,  docRef იქნება იმ იუზერის მონაცემები ვინც დალოგინებულია
     // .collection("checkout_sessions") არის ახალი ბაზა რომელიც შეიქმნება როცა იუზერი subscribe-ს გააკეთებს
     // add({}) ამით გადავცემთ იმ მონაცემებს რაც გვინდა რომ ამ ბაზაში ჩაჯდეს
@@ -99,6 +103,9 @@ function PlansScreen() {
           ).toLocaleDateString()}
         </p>
       )}
+      <div className={`procces ${procces}`}>
+        <p>Please Wait...</p>
+      </div>
       {/* დეკოსნტრუქცია ახდენს ეს, რაღაც სტრანად მოდის მონაცემები, გასარკვევია ქვედა კოდი ზუსტად როგორ მოქმედებს */}
       {Object.entries(products).map(([productId, productData]) => {
         // ამოწმებს რომელი პაკეტიაქ ნაყიდი და აბრუნებს true-ს შესაბამის სახელზე რო ui გადავაწყოთ
@@ -120,6 +127,7 @@ function PlansScreen() {
               <h5>{productData.name}</h5>
               <h6>{productData.description}</h6>
             </div>
+
             <button
               onClick={() =>
                 !isCurrentPackage && loadChekout(productData?.prices?.priceId)
